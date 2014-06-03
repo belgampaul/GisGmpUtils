@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://roskazna.ru/SmevUnifoService/"  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:smev="http://smev.gosuslugi.ru/rev111111">
+	<xsd:import schemaLocation="./smev.unifo.rev111111.xsd" namespace="http://smev.gosuslugi.ru/rev111111"/>
+	<xsd:element name="UnifoTransferMsg">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="smev:Message"/>
+				<xsd:element ref="smev:MessageData"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UnifoTransferMsgResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="smev:Message"/>
+				<xsd:element ref="smev:MessageData"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

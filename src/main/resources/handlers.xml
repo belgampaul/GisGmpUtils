@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+  <handler-chain>
+    <handler>
+      <handler-name>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServiceFinalLoggerHandler</handler-name>
+      <handler-class>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServiceFinalLoggerHandler</handler-class>
+    </handler>
+    <handler>
+      <handler-name>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServicePrettyPrintLoggerHandler</handler-name>
+      <handler-class>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServicePrettyPrintLoggerHandler</handler-class>
+    </handler>
+    <handler>
+      <handler-name>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServiceFinalFileLoggerHandler</handler-name>
+      <handler-class>com.bftcom.apps.gisgmp.ws.gisgmp.handlers.WebServiceFinalFileLoggerHandler</handler-class>
+    </handler>
+  </handler-chain>
+</handler-chains>
