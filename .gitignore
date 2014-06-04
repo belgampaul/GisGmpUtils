@@ -2,3 +2,4 @@
 /responses/
 /target/
 /out/
+*.log

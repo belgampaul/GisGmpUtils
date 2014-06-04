@@ -1,6 +1,9 @@
 package com.bftcom.apps.gisgmp.gui.panels.generators;
 
+
+import com.bftcom.apps.property.resource.bundle.LangResourceBundle;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -21,13 +24,13 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 /**
  * @author ikka
  * @date: 29.05.2014.
  */
 public class ExportPaymentResponseGeneratorPanel extends IkkaJXPanel {
+  public static final String RESPONSES_TEMPLATES_PAYMENTS_EXPORT_SUCCESS_XML = "/responses/templates/payments/export/success.xml";
   //slf4j logger
   private static Logger log = LoggerFactory.getLogger(ExportPaymentResponseGeneratorPanel.class);
 
@@ -107,7 +110,7 @@ public class ExportPaymentResponseGeneratorPanel extends IkkaJXPanel {
     pnlSrc = new JPanel(new BorderLayout());
     pnlDst = new JPanel(new BorderLayout());
 
-    btnConvertToBase64 = new JXButton("Convert to base64 (Final Payment Response");
+    btnConvertToBase64 = new JXButton(LangResourceBundle.getString("interface.btn.ConvertToBase64FinalPayment"));
 
     srcSyntaxTextArea = new RSyntaxTextArea();
     dstSyntaxTextArea = new RSyntaxTextArea();
@@ -125,13 +128,14 @@ public class ExportPaymentResponseGeneratorPanel extends IkkaJXPanel {
   private String getSuccessTemplate() {
     StringWriter writer = new StringWriter();
     try {
-      IOUtils.copy(ExportPaymentResponseGeneratorPanel.class.getResource("/responses/templates/payments/export/success.xml").openStream(), writer, StandardCharsets.UTF_8.name());
+      IOUtils.copy(ExportPaymentResponseGeneratorPanel.class.getResource(RESPONSES_TEMPLATES_PAYMENTS_EXPORT_SUCCESS_XML).openStream(), writer, StandardCharsets.UTF_8.name());
     } catch (IOException e) {
 
     }
     return writer.toString();
   }
 
+  @SuppressWarnings("HardCodedStringLiteral")
   @Override
   protected void setLayout2() {
     setLayout(new MigLayout("gap 2, fill"));
@@ -140,7 +144,7 @@ public class ExportPaymentResponseGeneratorPanel extends IkkaJXPanel {
 
   private void convert() {
     String text = srcSyntaxTextArea.getText();
-    String encodedToString = Base64.getEncoder().encodeToString(text.getBytes());
+    String encodedToString =  Base64.encodeBase64String(text.getBytes(StandardCharsets.UTF_8));
     String successTemplate = getSuccessTemplate();
     dstSyntaxTextArea.setText(successTemplate.replace("{{}}", encodedToString));
     dstSyntaxTextArea.setCaretPosition(0);

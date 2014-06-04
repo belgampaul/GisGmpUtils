@@ -86,8 +86,8 @@ public class ReceivedImportChargePanel extends IkkaJXPanel<UnifoTransferMsg> {
       }
     });
 
-    add(toggle, "split 2, wrap, width 100%");
-    add(cp, "split 2, width 100%, wrap");
+    add(toggle, "split 2, wrap");
+    add(cp, "split 2, wrap");
 
     addRow("TotaAmount", LangResourceBundle.getString("doc.gisgmp.TotalAmount"), String.valueOf(charge.getTotalAmount()));
 
@@ -130,7 +130,7 @@ public class ReceivedImportChargePanel extends IkkaJXPanel<UnifoTransferMsg> {
 
   @Override
   protected void setLayout2() {
-    setLayout(new MigLayout("gap 2, fillx"));
+    setLayout(new MigLayout("gap 2"));
   }
 
   @Subscribe

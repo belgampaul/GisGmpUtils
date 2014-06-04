@@ -1,25 +1,18 @@
 package com.bftcom.apps.gisgmp.gui.panels;
 
 import be.belgampaul.core.eventbus.EventBusService;
-import com.bftcom.apps.gisgmp.config.Config;
-import com.bftcom.apps.gisgmp.config.Constants;
 import com.bftcom.apps.gisgmp.repositories.ReceivedImportCharges;
-import com.bftcom.apps.property.resource.bundle.LangResourceBundle;
 import com.google.common.eventbus.Subscribe;
 import net.miginfocom.swing.MigLayout;
-import org.jdesktop.swingx.*;
 import org.pi2.core.gui.IkkaJXPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.roskazna.smevunifoservice.UnifoTransferMsg;
-import ru.roskazna.xsd.charge.ChargeType;
-import ru.roskazna.xsd.pgu_importrequest.ImportRequest;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +20,11 @@ import java.util.List;
  *         date: 01.06.2014.
  */
 public class ReceivedImportChargesPanel extends IkkaJXPanel<UnifoTransferMsg> {
+  //slf4j logger
+  private static Logger log = LoggerFactory.getLogger(ReceivedImportChargesPanel.class);
   private List<ReceivedImportChargePanel> importChargePanelList;
+  private JScrollPane jScrollPane;
+  private JPanel jPanel;
 
 
   {
@@ -40,22 +37,33 @@ public class ReceivedImportChargesPanel extends IkkaJXPanel<UnifoTransferMsg> {
 
 
     for (ReceivedImportChargePanel receivedImportChargePanel : importChargePanelList) {
-      add(receivedImportChargePanel, "wrap");
+     jPanel.add(receivedImportChargePanel, "wrap, grow");
     }
 
+    JScrollBar vertical = jScrollPane.getVerticalScrollBar();
+    vertical.setValue(vertical.getMaximum());
 
+    add(jScrollPane, "grow");
   }
 
+  private JPanel getjPanel(int i) {
+    JPanel jPanel = new JPanel();
+    jPanel.add(new JLabel(String.valueOf(i)));
+    jPanel.setBackground(Color.yellow);
+    jPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+    jPanel.setSize(new Dimension(50, 100));
+    return jPanel;
+  }
 
   @Override
   protected void configComponents() {
-
+    jScrollPane.setViewportView(jPanel);
   }
 
   @Override
   protected void initComponents() {
-
-
+    jScrollPane = new JScrollPane();
+    jPanel = new JPanel(new MigLayout("fill"));
   }
 
   @Override
@@ -71,7 +79,7 @@ public class ReceivedImportChargesPanel extends IkkaJXPanel<UnifoTransferMsg> {
 
   @Override
   protected void setLayout2() {
-    setLayout(new MigLayout("gap 2, fillx"));
+    setLayout(new MigLayout("fill"));
   }
 
   @Subscribe
@@ -79,7 +87,10 @@ public class ReceivedImportChargesPanel extends IkkaJXPanel<UnifoTransferMsg> {
     UnifoTransferMsg unifoTransferMsg = event.getUnifoTransferMsg();
     ReceivedImportChargePanel receivedImportChargePanel = new ReceivedImportChargePanel(unifoTransferMsg);
     importChargePanelList.add(receivedImportChargePanel);
-    add(receivedImportChargePanel, "wrap");
+    jPanel.add(receivedImportChargePanel, "wrap, grow");
+    JScrollBar vertical = jScrollPane.getVerticalScrollBar();
+    vertical.setValue(vertical.getMaximum());
+    log.debug("add new panel");
+    this.updateUI();
   }
-
 }
